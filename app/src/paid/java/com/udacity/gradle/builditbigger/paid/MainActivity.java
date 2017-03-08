@@ -8,6 +8,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.Joker;
 import com.example.animo.jokeactivity.ImageActivity;
@@ -16,13 +17,21 @@ import com.udacity.gradle.builditbigger.R;
 
 
 public class MainActivity extends AppCompatActivity {
+    ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        spinner= (ProgressBar) findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        spinner.setVisibility(View.GONE);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(this, joke, Toast.LENGTH_SHORT).show();
         /*Intent intent=new Intent(this, ImageActivity.class).putExtra("joke",joke);
         startActivity(intent);*/
+
+        spinner.setVisibility(View.VISIBLE);
         new EndpointsAsyncTask().execute(new Pair<Context, String>(this,"null"));
+
+
 
     }
 

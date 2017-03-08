@@ -1,9 +1,12 @@
 package com.udacity.gradle.builditbigger;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.animo.jokeactivity.ImageActivity;
@@ -22,6 +25,7 @@ import java.io.IOException;
 public class EndpointsAsyncTask extends AsyncTask<Pair<Context,String>,Void,String> {
     private static MyApi myApiService = null;
     private Context context;
+
 
     @Override
     protected void onPostExecute(String result) {

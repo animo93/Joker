@@ -11,20 +11,44 @@ import android.view.View;
 
 import com.example.Joker;
 import com.example.animo.jokeactivity.ImageActivity;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.udacity.gradle.builditbigger.EndpointsAsyncTask;
 import com.udacity.gradle.builditbigger.R;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                tellJoke(findViewById(R.id.button));
+            }
+        });
+        requestNewInterstitial();
     }
 
+    
 
-    @Override
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mInterstitialAd.loadAd(adRequest);
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -51,7 +75,12 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(this, joke, Toast.LENGTH_SHORT).show();
         /*Intent intent=new Intent(this, ImageActivity.class).putExtra("joke",joke);
         startActivity(intent);*/
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this,"null"));
+        if (mInterstitialAd.isLoaded()){
+            mInterstitialAd.show();
+        }else {
+            new EndpointsAsyncTask().execute(new Pair<Context, String>(this,"null"));
+        }
+
 
     }
 
