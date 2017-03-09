@@ -32,7 +32,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context,String>,Void,Stri
         //Toast.makeText(context, result, Toast.LENGTH_LONG).show();
         Intent intent=new Intent(context,ImageActivity.class).putExtra("joke",result);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //context.startActivity(intent);
+        context.startActivity(intent);
     }
 
     @Override
